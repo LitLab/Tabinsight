@@ -350,6 +350,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @SuppressWarnings("unchecked")
     private void uploadDeviceInfos(List<DeviceUseInfo> data) {
+        DeviceUseInfo info = new DeviceUseInfo();
+        info.day = System.currentTimeMillis();
+        info.deviceid = "eliran";
+        info.elapsedRealtime = 6000000;
+        info.timestamp = System.currentTimeMillis();
+        info.uptime = 68686868;
+        info.usageTime = 80000;
+        data.add(info);
+
         final Calendar calendar = Calendar.getInstance();
 
         for (DeviceUseInfo d : data) {
@@ -369,11 +378,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Subscriber() {
                     @Override
-                    public void onCompleted() {
-                        Log.d(LogTags.APP_INFO.name(), "Syncing device info completed successfully");
-                        appsInfoDatasource.truncateTillLast();
-                        syncData();
-                    }
+                    public void onCompleted() { }
 
                     @Override
                     public void onError(Throwable e) {
@@ -384,6 +389,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onNext(Object o) {
                         Log.d(LogTags.APP_INFO.name(), "Syncing next device batch");
+                        Log.d(LogTags.APP_INFO.name(), "Syncing device info completed successfully");
+                        appsInfoDatasource.truncateTillLast();
+                        syncData();
                     }
                 });
     }
@@ -397,14 +405,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Subscriber() {
                     @Override
-                    public void onCompleted() {
-                        Log.d(LogTags.APP_INFO.name(), "Syncing apps completed successfully");
-                        Toast.makeText(DashboardActivity.this, "Sync success", Toast.LENGTH_LONG).show();
-                        appsInfoDatasource.truncateTable();
-                        SharedPrefManager.getInstance(getBaseContext())
-                                .saveSyncProgress(new Date());
-                        updateSyncStatus();
-                    }
+                    public void onCompleted() { }
 
                     @Override
                     public void onError(Throwable e) {
@@ -415,6 +416,12 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onNext(Object o) {
                         Log.d(LogTags.APP_INFO.name(), "Syncing next batch");
+                        Log.d(LogTags.APP_INFO.name(), "Syncing apps completed successfully");
+                        Toast.makeText(DashboardActivity.this, "Sync success", Toast.LENGTH_LONG).show();
+                        appsInfoDatasource.truncateTable();
+                        SharedPrefManager.getInstance(getBaseContext())
+                                .saveSyncProgress(new Date());
+                        updateSyncStatus();
                     }
                 });
     }

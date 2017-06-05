@@ -29,8 +29,7 @@ public class StatsCollector extends Service {
 
     private static final String TAG = StatsCollector.class.getSimpleName();
 
-    public StatsCollector() {
-    }
+    public StatsCollector() {}
 
     Intent intent;
 

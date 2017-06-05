@@ -70,6 +70,7 @@
             </intent-filter>
         </receiver>
 
+
         <service
             android:name="com.lumen.cronjobs.ServerUploader"
             android:enabled="true"

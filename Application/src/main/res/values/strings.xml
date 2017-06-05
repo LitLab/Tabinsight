@@ -22,6 +22,7 @@
         for this app through Settings > Security > Apps with usage access
     </string>
     <string name="server_ip_address">services.tablumen.com:3000/</string>
+    <string name="server_ip_address_test">10.0.0.5:3000/</string>
 
     <string name="package_name_placeholder">Package Name</string>
     <string name="last_time_used_placeholder">12/31/1970 23:59:59 123456</string>
@@ -39,6 +40,6 @@
     <string name="update_page_count">Update page count</string>
     <string name="broadcast_action">com.lumen.action_collection</string>
     <string name="choose_unique_id">Choose unique id</string>
-    <string name="id">id...</string>
+    <string name="id">id…</string>
     <string name="ok">OK</string>
 </resources>
