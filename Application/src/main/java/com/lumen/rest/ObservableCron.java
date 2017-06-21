@@ -58,7 +58,6 @@ public final class ObservableCron {
                     @Override
                     public Observable<Object> call(ArrayList<AppUseInfo> appUseInfos) {
                         Log.i("sync lumen", "app use info sent to server " + appUseInfos.size());
-
                         return getService(context).syncAppDataToApi(appUseInfos);
                     }
                 });

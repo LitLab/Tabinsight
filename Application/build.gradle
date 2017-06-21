@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.android.tools.build:gradle:2.3.3'
     }
 }
 
@@ -51,8 +51,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         applicationId "com.lumen.usage.satistics"
-        versionCode 5
-        versionName "1.5"
+        versionCode 8
+        versionName "1.8"
     }
 
     compileOptions {

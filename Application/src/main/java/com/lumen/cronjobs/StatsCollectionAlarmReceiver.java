@@ -23,7 +23,6 @@ public class StatsCollectionAlarmReceiver extends WakefulBroadcastReceiver {
         Log.d(LogTags.APP_INFO.name(),"------------Alarm received in StatsCollectionAlarmReceiver------------------");
         if(firstConnect) {
             startWakefulService(context, new Intent(context, StatsCollector.class));
-//            context.startService(new Intent(context, StatsCollector.class));
             firstConnect = false;
         } else {
             firstConnect = true;

@@ -1,0 +1,183 @@
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@android:color/white"
+        android:fillViewport="true"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="37dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="130dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_launcher" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email_layout"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:hint="First name"
+                    android:id="@+id/email"
+                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:lines="1"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:hint="Last name"
+                    android:id="@+id/password"
+                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:lines="1"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:hint="Phone"
+                        android:id="@+id/phone"
+                        android:inputType="text"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:lines="1"
+                        android:textSize="20sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:hint="Zip"
+                        android:id="@+id/zip"
+                        android:inputType="text"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:lines="1"
+                        android:textSize="20sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:hint="Child first name"
+                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:lines="1"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:hint="Child last name"
+                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:lines="1"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+
+                <android.support.design.widget.TextInputEditText
+                    android:hint="Child birth date"
+                    android:inputType="text"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:lines="1"
+                    android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <CheckBox
+                android:id="@+id/agree"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="32dp"
+                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:text="Agree to terms" />
+
+            <CheckBox
+                android:id="@+id/permission"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableEnd="@drawable/ic_help_outline_black_24dp"
+                android:drawablePadding="16dp"
+                android:textSize="24sp"
+                android:text="Give permission" />
+
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+
+                <Button
+                    android:background="@android:color/holo_blue_dark"
+                    android:id="@+id/login"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:text="Register"
+                    android:textColor="@android:color/white"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>

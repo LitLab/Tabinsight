@@ -68,6 +68,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private AppsInfoDatasource appsInfoDatasource;
     private ServerUploaderReceiver serverUploaderReceiver;
     private boolean mIsGranted;
+    private boolean mIsError;
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -92,8 +93,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         findViews();
 
         enableBootReceiver();
-//        setRecurringAlarmTest(this);
-        setRecurringAlarmProd(this);
+        setRecurringAlarmTest(this);
+//        setRecurringAlarmProd(this);
         wifiPresentAlarm();
 
         sharedManager = SharedPrefManager.getInstance(this);
@@ -210,7 +211,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 updateTime.getTimeInMillis(),
                 minuteCollect, statCollector);
-
 
         Calendar uploadTime = Calendar.getInstance();
         uploadTime.setTimeInMillis(System.currentTimeMillis());
@@ -350,15 +350,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @SuppressWarnings("unchecked")
     private void uploadDeviceInfos(List<DeviceUseInfo> data) {
-        DeviceUseInfo info = new DeviceUseInfo();
-        info.day = System.currentTimeMillis();
-        info.deviceid = "eliran";
-        info.elapsedRealtime = 6000000;
-        info.timestamp = System.currentTimeMillis();
-        info.uptime = 68686868;
-        info.usageTime = 80000;
-        data.add(info);
-
         final Calendar calendar = Calendar.getInstance();
 
         for (DeviceUseInfo d : data) {
@@ -372,28 +363,34 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         Log.i("sync size ", "data size " + data.size());
 
-        ObservableCron.getDeviceDataObservable(data, this)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber() {
-                    @Override
-                    public void onCompleted() { }
+//        if (data.size() > 0) {
+            ObservableCron.getDeviceDataObservable(data, this)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribe(new Subscriber() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(LogTags.APP_EXCEPTION.name(), "Could not sync uptime. Syncing apps...");
-                        syncData();
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e(LogTags.APP_EXCEPTION.name(), "Could not sync uptime. Syncing apps...");
+                            Log.e("sync lumenm", "error " + e.getMessage());
+                            syncData();
+                        }
 
-                    @Override
-                    public void onNext(Object o) {
-                        Log.d(LogTags.APP_INFO.name(), "Syncing next device batch");
-                        Log.d(LogTags.APP_INFO.name(), "Syncing device info completed successfully");
-                        appsInfoDatasource.truncateTillLast();
-                        syncData();
-                    }
-                });
+                        @Override
+                        public void onNext(Object o) {
+                            Log.d(LogTags.APP_INFO.name(), "Syncing next device batch");
+                            Log.d(LogTags.APP_INFO.name(), "Syncing device info completed successfully");
+                            appsInfoDatasource.truncateTillLast();
+                            syncData();
+                        }
+                    });
+//        } else {
+//            Toast.makeText(this, "No data to sync", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     @SuppressWarnings("unchecked")
@@ -405,10 +402,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Subscriber() {
                     @Override
-                    public void onCompleted() { }
+                    public void onCompleted() {
+                        if (!mIsError) {
+                            Toast.makeText(DashboardActivity.this, "Sync success", Toast.LENGTH_LONG).show();
+                        }
+                    }
 
                     @Override
                     public void onError(Throwable e) {
+                        mIsError = true;
                         Toast.makeText(DashboardActivity.this, "Error syncing", Toast.LENGTH_LONG).show();
                         updateSyncStatus();
                     }

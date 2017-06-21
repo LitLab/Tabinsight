@@ -72,8 +72,12 @@ public class StatsCollector extends Service {
             // create entries for application usages
             for (String name : usageStatsMap.keySet()) {
                 UsageStats usageStat = usageStatsMap.get(name);
-                appsInfoDatasource.createAppEntry(usageStat.getPackageName(), String.valueOf(usageStat.getFirstTimeStamp()),
-                        usageStat.getTotalTimeInForeground(), new Date().getTime());
+                if (usageStat.getLastTimeUsed() != 0) {
+                    Log.i("stats collector: ", "name: " + usageStat.getPackageName() + " last time used: " + String.valueOf(usageStat.getLastTimeUsed()));
+                    appsInfoDatasource.createAppEntry(usageStat.getPackageName(), String.valueOf(usageStat.getLastTimeUsed()),
+                            usageStat.getTotalTimeInForeground(), new Date().getTime());
+                }
+
             }
 
         } catch (SQLException e) {
@@ -105,10 +109,10 @@ public class StatsCollector extends Service {
     private HashMap<String, UsageStats> getUsageStatsMap() {
         Calendar cal = Calendar.getInstance();
 
-        cal.set(Calendar.HOUR, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+//        cal.set(Calendar.MINUTE, 0);
+//        cal.set(Calendar.SECOND, 0);
+//        cal.set(Calendar.HOUR_OF_DAY, 0);
 
         List<UsageStats> queryUsageStats = mUsageStatsManager
                 .queryUsageStats(UsageStatsManager.INTERVAL_DAILY, cal.getTimeInMillis(),
@@ -118,6 +122,7 @@ public class StatsCollector extends Service {
         HashMap<String, UsageStats> usageStatsMap = new HashMap<>();
         for (UsageStats qsm : queryUsageStats) {
             usageStatsMap.put(qsm.getPackageName(), qsm);
+            Log.i("sync lumen", "last time used " + qsm.getLastTimeUsed());
         }
 
         return usageStatsMap;

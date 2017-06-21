@@ -123,8 +123,6 @@ public class AppsInfoDatasource {
         checkDb();
 
         sqLiteDatabase.execSQL("DELETE FROM " + DatabaseHelper.table_name_apps + ";");
-
-        Log.e(LogTags.APP_EXCEPTION.name(), "DELETING APPS INFO FROM DB");
     }
 
     public void checkDb() {

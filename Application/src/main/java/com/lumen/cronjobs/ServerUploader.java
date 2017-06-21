@@ -95,9 +95,7 @@ public class ServerUploader extends Service {
     }
 
     @Override
-    public void onCreate() {
-        Log.e(TAG, "Inside create of server uploader");
-    }
+    public void onCreate() {}
 
     @SuppressWarnings("unchecked")
     private void uploadDeviceInfos(List<DeviceUseInfo> data) {

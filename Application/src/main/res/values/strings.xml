@@ -22,7 +22,7 @@
         for this app through Settings > Security > Apps with usage access
     </string>
     <string name="server_ip_address">services.tablumen.com:3000/</string>
-    <string name="server_ip_address_test">10.0.0.5:3000/</string>
+    <string name="server_ip_address_test">192.168.1.5:3000/</string>
 
     <string name="package_name_placeholder">Package Name</string>
     <string name="last_time_used_placeholder">12/31/1970 23:59:59 123456</string>

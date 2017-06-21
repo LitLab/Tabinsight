@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -65,12 +66,8 @@ public class BootReceiver extends BroadcastReceiver {
      * and the upload to every minute on the 45th second
      */
     private void setRecurringAlarmTest(Context context) {
-        long minuteUpdate = 1000 * 60L * 5;
-        long minuteCollect = 1000* 60L;
-
         Calendar updateTime = Calendar.getInstance();
         updateTime.setTimeInMillis(System.currentTimeMillis());
-        //updateTime.set(Calendar.SECOND, 30);
 
         Intent downloader = new Intent(context, StatsCollectionAlarmReceiver.class);
         PendingIntent statCollector = PendingIntent.getBroadcast(context,
@@ -84,15 +81,12 @@ public class BootReceiver extends BroadcastReceiver {
 
         Calendar uploadTime = Calendar.getInstance();
         uploadTime.setTimeInMillis(System.currentTimeMillis());
-//        uploadTime.set(Calendar.MINUTE, 59);
-//        uploadTime.set(Calendar.SECOND, 0);
 
         Intent uploadIntent = new Intent(context, ServerUploaderReceiver.class);
         PendingIntent uploadPending = PendingIntent.getBroadcast(context, 0, uploadIntent, 0);
         AlarmManager uploadAlarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         uploadAlarm.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 uploadTime.getTimeInMillis(),
-//                minuteCollect,
                 AlarmManager.INTERVAL_HOUR,
                 uploadPending);
     }
