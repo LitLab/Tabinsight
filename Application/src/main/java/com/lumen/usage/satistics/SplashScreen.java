@@ -1,22 +1,18 @@
 package com.lumen.usage.satistics;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.lumen.constants.Keys;
+import com.lumen.database.LocalRepo;
+import com.lumen.setup.PermissionsActivity;
+import com.lumen.setup.RegistrationActivity;
 import com.lumen.util.Environments;
+import com.lumen.util.Permissions;
 
 
 public class SplashScreen extends AppCompatActivity {
@@ -34,31 +30,16 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void splashScreenLogic() {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.contains(Keys.DEVICE_ID)) {
+        if (!Permissions.isPermissionGranted(this)) {
+            startActivity(new Intent(this, PermissionsActivity.class));
+            return;
+        }
+
+        if (LocalRepo.isIdExist()) {
             startActivity(new Intent(this, DashboardActivity.class));
 
         } else {
-            ViewGroup container = (ViewGroup) findViewById(R.id.content);
-            container.setVisibility(View.VISIBLE);
-
-            Button button = (Button)findViewById(R.id.ok);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    EditText text = (EditText)findViewById(R.id.id);
-
-                    String id = text.getText().toString();
-
-                    if (TextUtils.isEmpty(id)) {
-                        Toast.makeText(text.getContext(), "please insert id", Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        preferences.edit().putString(Keys.DEVICE_ID, id).apply();
-                        startActivity(new Intent(SplashScreen.this, DashboardActivity.class));
-                    }
-                }
-            });
+            startActivity(new Intent(this, RegistrationActivity.class));
         }
     }
 

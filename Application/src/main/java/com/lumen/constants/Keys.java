@@ -6,5 +6,11 @@ package com.lumen.constants;
 
 public class Keys {
 
+    /**
+     *
+     */
     public static final String DEVICE_ID = "device_id";
+
+
+    public static final String PERMISSION_GRANTED = "permission_granted";
 }

@@ -42,7 +42,7 @@ public class AppsInfoDatasource {
 
     public AppsInfoDatasource(Context context) {
         dbHelper = new DatabaseHelper(context);
-        device_id = PhoneDetailHelper.getUniqueId(context);
+        device_id = PhoneDetailHelper.getUniqueId();
         device_timestamp = SharedPrefManager.getInstance(context).readDeviceTimestamp();
         this.context = context;
     }
@@ -268,7 +268,7 @@ public class AppsInfoDatasource {
         result.use_time = cursor.getLong(2);
         result.day = cursor.getLong(3);
         result.yearDay = cursor.getInt(4);
-        result.device_id = PhoneDetailHelper.getUniqueId(context);
+        result.device_id = PhoneDetailHelper.getUniqueId();
         return result;
     }
 
@@ -279,7 +279,7 @@ public class AppsInfoDatasource {
         result.uptime = cursor.getLong(2);
         result.elapsedRealtime = cursor.getLong(3);
         result.usageTime = cursor.getLong(4);
-        result.deviceid = PhoneDetailHelper.getUniqueId(context);
+        result.deviceid = PhoneDetailHelper.getUniqueId();
         return result;
     }
 }
