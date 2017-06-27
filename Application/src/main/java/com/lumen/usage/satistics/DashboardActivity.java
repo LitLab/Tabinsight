@@ -136,7 +136,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         checkApi();
 
         permissionGrantedTv.setText("Usage statistics permission: ");
-        int mode = ((AppOpsManager) getSystemService(Context.APP_OPS_SERVICE))
+        final AppOpsManager appOpsManager = ((AppOpsManager) getSystemService(Context.APP_OPS_SERVICE));
+        int mode = appOpsManager
                 .checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), getPackageName());
 
         if (mode == AppOpsManager.MODE_ALLOWED) {
@@ -150,6 +151,23 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             Toast.makeText(DashboardActivity.this, "Permission missing", Toast.LENGTH_LONG).show();
             permissionGrantedTv.append("not granted");
         }
+
+        appOpsManager.startWatchingMode(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                getApplicationContext().getPackageName(), new AppOpsManager.OnOpChangedListener() {
+                    @Override
+                    public void onOpChanged(String op, String packageName) {
+                        int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                                android.os.Process.myUid(), getPackageName());
+                        if (mode != AppOpsManager.MODE_ALLOWED) {
+                            return;
+                        }
+
+                        appOpsManager.stopWatchingMode(this);
+                        Intent intent = new Intent(DashboardActivity.this, DashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
 
         loadingDialog.dismiss();
     }

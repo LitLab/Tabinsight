@@ -31,7 +31,7 @@
                 android:layout_width="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:hint="First name"
+                    android:hint="@string/first_name"
                     android:id="@+id/email"
                     android:inputType="text"
                     android:layout_height="match_parent"
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:hint="Last name"
+                    android:hint="@string/last_name"
                     android:id="@+id/password"
                     android:inputType="text"
                     android:layout_height="match_parent"
@@ -68,7 +68,7 @@
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:hint="Phone"
+                        android:hint="@string/phone"
                         android:id="@+id/phone"
                         android:inputType="text"
                         android:layout_height="match_parent"
@@ -84,7 +84,7 @@
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:hint="Zip"
+                        android:hint="@string/zip"
                         android:id="@+id/zip"
                         android:inputType="text"
                         android:layout_height="match_parent"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:hint="Child first name"
+                    android:hint="@string/child_first_name"
                     android:inputType="text"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:hint="Child last name"
+                    android:hint="@string/child_last_name"
                     android:inputType="text"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:hint="Child birth date"
+                    android:hint="@string/child_birth_date"
                     android:inputType="text"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
@@ -149,17 +149,8 @@
                 android:layout_marginTop="32dp"
                 android:textSize="24sp"
                 android:layout_width="match_parent"
-                android:text="Agree to terms" />
+                android:text="@string/agree_to_terms" />
 
-            <CheckBox
-                android:id="@+id/permission"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="8dp"
-                android:drawableEnd="@drawable/ic_help_outline_black_24dp"
-                android:drawablePadding="16dp"
-                android:textSize="24sp"
-                android:text="Give permission" />
 
             <RelativeLayout
                 android:layout_height="match_parent"
@@ -167,12 +158,12 @@
 
                 <Button
                     android:background="@android:color/holo_blue_dark"
-                    android:id="@+id/login"
+                    android:id="@+id/register"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
-                    android:text="Register"
+                    android:text="@string/register"
                     android:textColor="@android:color/white"/>
 
 
