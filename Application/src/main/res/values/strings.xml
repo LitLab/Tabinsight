@@ -54,4 +54,5 @@
 
     <string name="permission_text">Lumen ask you to enable permission to collect statistics and provide you better service\n\nplease click on enable permission and in the screen that pops up, click on lumen to enable it </string>
     <string name="enable_permission">enable permission</string>
+    <string name="action_settings">Settings</string>
 </resources>

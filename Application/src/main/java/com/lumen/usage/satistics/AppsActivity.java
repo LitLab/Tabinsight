@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.lumen.adapter.AppsAdapter;
@@ -51,6 +53,26 @@ public class AppsActivity extends AppCompatActivity {
         });
 
         appsList.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, DashboardActivity.class);
+                startActivity(intent);
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void onAppClick(App app) {
