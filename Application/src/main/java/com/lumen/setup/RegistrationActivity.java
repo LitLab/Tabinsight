@@ -12,7 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import com.lumen.database.LocalRepo;
-import com.lumen.usage.satistics.DashboardActivity;
+import com.lumen.usage.satistics.AppsActivity;
 import com.lumen.usage.satistics.R;
 import com.lumen.usage.satistics.databinding.ActivityRegistrationBinding;
 
@@ -74,7 +74,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     String id = mBinding.firstName.getText().toString() + mBinding.lastName.getText().toString();
                     LocalRepo.saveId(id);
 
-                    Intent intent = new Intent(RegistrationActivity.this, DashboardActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this, AppsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }

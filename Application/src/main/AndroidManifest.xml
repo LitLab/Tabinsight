@@ -34,7 +34,7 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
 
-        <activity android:name=".SplashScreen"
+        <activity android:name="com.lumen.setup.SplashScreen"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,6 +52,16 @@
         <activity android:name="com.lumen.setup.RegistrationActivity"
             android:label="Register"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity android:name=".AppsActivity"
+            android:label="Applications"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name="com.lumen.usage.satistics.DashboardActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden" />
 
 
         <service
@@ -87,12 +97,6 @@
             android:enabled="true"
             android:exported="true" />
         <!--android:process=":remote2" />-->
-
-        <activity
-            android:name="com.lumen.usage.satistics.DashboardActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden" />
 
 
 

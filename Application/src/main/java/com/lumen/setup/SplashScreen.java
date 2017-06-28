@@ -1,4 +1,4 @@
-package com.lumen.usage.satistics;
+package com.lumen.setup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.lumen.database.LocalRepo;
-import com.lumen.setup.PermissionsActivity;
-import com.lumen.setup.RegistrationActivity;
+import com.lumen.usage.satistics.AppsActivity;
+import com.lumen.usage.satistics.R;
 import com.lumen.util.Environments;
 import com.lumen.util.Permissions;
 
@@ -36,7 +36,7 @@ public class SplashScreen extends AppCompatActivity {
         }
 
         if (LocalRepo.isIdExist()) {
-            startActivity(new Intent(this, DashboardActivity.class));
+            startActivity(new Intent(this, AppsActivity.class));
 
         } else {
             startActivity(new Intent(this, RegistrationActivity.class));
