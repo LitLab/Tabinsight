@@ -1,5 +1,6 @@
 package com.lumen.setup;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,11 +11,16 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.DatePicker;
 
 import com.lumen.database.LocalRepo;
 import com.lumen.usage.satistics.AppsActivity;
 import com.lumen.usage.satistics.R;
 import com.lumen.usage.satistics.databinding.ActivityRegistrationBinding;
+import com.lumen.util.DateUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Registration screen
@@ -26,6 +32,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private boolean mFirstName;
     public boolean mLastName;
+    public boolean mChildFirst;
+    public boolean mChildLast;
+    public boolean mChildBirth;
+    public boolean mZip;
+    public boolean mPhone;
+
+    private Date mDate = new Date();
+    private DateListener mDateListener = new DateListener();
+    private DateClickListener mListener = new DateClickListener();
 
 
     @Override
@@ -67,11 +82,98 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+        mBinding.zip.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mZip = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.phone.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mPhone = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.childFirstName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mChildFirst = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.childLastName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mChildLast = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.birthDate.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mChildBirth = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.birthDate.setOnClickListener(mListener);
+
         mBinding.register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (formValid()) {
-                    String id = mBinding.firstName.getText().toString() + mBinding.lastName.getText().toString();
+                    String id = mBinding.phone.getText().toString();
                     LocalRepo.saveId(id);
 
                     Intent intent = new Intent(RegistrationActivity.this, AppsActivity.class);
@@ -96,6 +198,44 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private boolean formValid() {
 
-        return mFirstName && mLastName;
+        return mFirstName && mLastName && mZip && mPhone & mChildFirst && mChildLast && mChildBirth;
+    }
+
+
+    private class DateClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Calendar date = Calendar.getInstance();
+            date.setTime(mDate);
+
+            DatePickerDialog dialog = new DatePickerDialog(RegistrationActivity.this,
+                    mDateListener,
+                    date.get(Calendar.YEAR),
+                    date.get(Calendar.MONTH),
+                    date.get(Calendar.DAY_OF_MONTH));
+
+            dialog.getDatePicker().setMinDate(new Date().getTime());
+            dialog.show();
+
+        }
+    }
+
+
+    private class DateListener implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            Calendar newDate = Calendar.getInstance();
+            newDate.setTime(mDate);
+
+            newDate.set(Calendar.YEAR, year);
+            newDate.set(Calendar.MONTH, monthOfYear);
+            newDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            // swaps the modified date as the current one.
+            mDate = newDate.getTime();
+            mBinding.birthDate.setText(DateUtils.DATE_ONLY.format(mDate));
+        }
     }
 }

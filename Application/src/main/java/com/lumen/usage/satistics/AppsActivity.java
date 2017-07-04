@@ -10,14 +10,18 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.lumen.adapter.AppsAdapter;
 import com.lumen.model.App;
+import com.lumen.rest.ObservableCron;
 import com.lumen.usage.satistics.databinding.ActivityAppsBinding;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+
+import rx.functions.Action1;
 
 /**
  * Apps screen
@@ -38,13 +42,28 @@ public class AppsActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
         appsList.setLayoutManager(layoutManager);
 
-        String imageUrl = "https://lh3.googleusercontent.com/kaK6tiElkhevaBKXjvgvtTAWEiUCrXwW1ktqYhET0KJV26w9WpFRI5L_Uvpb7iQivQ=w300-rw";
-        String name = "Peppa Pig: Activity Maker";
-        String packageName = "air.com.peppapig.activitymaker";
+        String imageUrl = "https://lh3.googleusercontent.com/s08dlQpwZppwLbrf2lA7HRlX780n4FXLoZ2aDbrnWI42adkoaLkJ1hV18U1lITyUl_M=w300-rw";
+        String name = "Animal Sounds";
+        String packageName = "com.premiumsoftware.animalsoundsandphotos";
 
         App app = new App(name, packageName, imageUrl);
-        List<App> apps = Arrays.asList(app, app, app, app);
+        List<App> apps = new ArrayList<>();
+//        List<App> apps = Arrays.asList(app, app, app, app);
 
+        renderApps(apps);
+
+        getApps();
+    }
+
+    private void showLoading(boolean show) {
+        int contentVisibiliy = show ? View.GONE : View.VISIBLE;
+        int loadingVisibility = show ? View.VISIBLE : View.GONE;
+
+        mBinding.content.setVisibility(contentVisibiliy);
+        mBinding.loading.setVisibility(loadingVisibility);
+    }
+
+    private void renderApps(List<App> apps) {
         AppsAdapter adapter = new AppsAdapter(apps, new AppsAdapter.ItemClickListener() {
             @Override
             public void onItemClick(App app) {
@@ -52,7 +71,36 @@ public class AppsActivity extends AppCompatActivity {
             }
         });
 
-        appsList.setAdapter(adapter);
+        mBinding.apps.setAdapter(adapter);
+    }
+
+    private void getApps() {
+        showLoading(true);
+
+        ObservableCron.getApps(this)
+                .subscribe(new Action1<List<App>>() {
+                    @Override
+                    public void call(List<App> apps) {
+                        showLoading(false);
+
+                        renderApps(apps);
+                    }
+
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        showLoading(false);
+
+                        Toast.makeText(AppsActivity.this, "There's been an error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        showLoading(false);
     }
 
     @Override

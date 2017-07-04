@@ -2,6 +2,7 @@ package com.lumen.rest;
 
 import com.lumen.database.AppUseInfo;
 import com.lumen.database.DeviceUseInfo;
+import com.lumen.model.App;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,4 +27,7 @@ public interface ApiEndpoints {
 
     @POST("/publish/uptime")
     Observable<Object> syncDeviceDataToApi(@Body List<DeviceUseInfo> deviceUseInfos);
+
+    @GET("/apps")
+    Observable<List<App>> getApps();
 }
