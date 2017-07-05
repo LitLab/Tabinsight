@@ -10,23 +10,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.lumen.database.LocalRepo;
+import com.lumen.mapper.Mapper;
+import com.lumen.rest.ObservableCron;
 import com.lumen.usage.satistics.AppsActivity;
 import com.lumen.usage.satistics.R;
 import com.lumen.usage.satistics.databinding.ActivityRegistrationBinding;
 import com.lumen.util.DateUtils;
+import com.lumen.util.TextUtils2;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import rx.Subscription;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 /**
  * Registration screen
  */
 
 public class RegistrationActivity extends AppCompatActivity {
+
+    private static final String TAG = RegistrationActivity.class.getSimpleName();
 
     ActivityRegistrationBinding mBinding;
 
@@ -41,6 +53,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private Date mDate = new Date();
     private DateListener mDateListener = new DateListener();
     private DateClickListener mListener = new DateClickListener();
+    private Subscription mSubscription;
+    private boolean mAgree;
 
 
     @Override
@@ -167,22 +181,79 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+        mBinding.agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mAgree = isChecked;
+                checkButtonState();
+            }
+        });
+
         mBinding.birthDate.setOnClickListener(mListener);
 
         mBinding.register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (formValid()) {
-                    String id = mBinding.phone.getText().toString();
-                    LocalRepo.saveId(id);
+                    showLoading(true);
 
-                    Intent intent = new Intent(RegistrationActivity.this, AppsActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    String firstName = TextUtils2.getString(mBinding.firstName);
+                    String lastName = TextUtils2.getString(mBinding.lastName);
+                    String zip = TextUtils2.getString(mBinding.zip);
+                    String phone = TextUtils2.getString(mBinding.phone);
+                    String childFirst = TextUtils2.getString(mBinding.childFirstName);
+                    String childLast = TextUtils2.getString(mBinding.childLastName);
+                    String childBirth = TextUtils2.getString(mBinding.birthDate);
+
+                    mSubscription = ObservableCron.register(RegistrationActivity.this,
+                            Mapper.toRegisterParams(firstName, lastName, zip, phone, childFirst, childLast, childBirth))
+                            .subscribe(new Action0() {
+                                @Override
+                                public void call() {
+                                    showLoading(false);
+
+                                    Log.i(TAG, "registering... SUCCESS");
+
+                                    String id = TextUtils2.getString(mBinding.phone);
+                                    LocalRepo.saveId(id);
+
+                                    Intent intent = new Intent(RegistrationActivity.this, AppsActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+
+                            }, new Action1<Throwable>() {
+                                @Override
+                                public void call(Throwable throwable) {
+                                    showLoading(false);
+
+                                    Log.i(TAG, "registering... ERROR: " + throwable.getMessage());
+                                    Toast.makeText(RegistrationActivity.this, "there's been an error", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        showLoading(false);
+
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+    }
+
+    private void showLoading(boolean show) {
+        int loading = show ? View.VISIBLE : View.GONE;
+        int content = show ? View.GONE : View.VISIBLE;
+
+        mBinding.content.setVisibility(content);
+        mBinding.loading.setVisibility(loading);
     }
 
 
@@ -198,7 +269,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private boolean formValid() {
 
-        return mFirstName && mLastName && mZip && mPhone & mChildFirst && mChildLast && mChildBirth;
+        return mFirstName && mLastName && mZip && mPhone & mChildFirst && mChildLast && mChildBirth && mAgree;
     }
 
 
