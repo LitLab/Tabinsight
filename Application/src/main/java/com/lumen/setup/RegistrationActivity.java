@@ -286,7 +286,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     date.get(Calendar.MONTH),
                     date.get(Calendar.DAY_OF_MONTH));
 
-            dialog.getDatePicker().setMinDate(new Date().getTime());
             dialog.show();
 
         }
