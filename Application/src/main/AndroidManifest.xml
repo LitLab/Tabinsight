@@ -96,7 +96,10 @@
             android:name="com.lumen.cronjobs.ServerUploader"
             android:enabled="true"
             android:exported="true" />
-        <!--android:process=":remote2" />-->
+
+        <service
+            android:name="com.lumen.sync.SyncService"
+            android:exported="false" />
 
 
 

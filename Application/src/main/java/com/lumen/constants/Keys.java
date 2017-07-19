@@ -13,4 +13,10 @@ public class Keys {
 
 
     public static final String PERMISSION_GRANTED = "permission_granted";
+
+
+    /**
+     * define app category
+     */
+    public static final String CATEGORY = "category";
 }

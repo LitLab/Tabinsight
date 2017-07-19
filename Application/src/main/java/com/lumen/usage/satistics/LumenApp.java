@@ -5,12 +5,23 @@ import android.app.Application;
 import com.bugfender.sdk.Bugfender;
 import com.lumen.database.LocalRepo;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 
 public class LumenApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Realm.init(this);
+
+        RealmConfiguration config = new RealmConfiguration
+                .Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
 
         LocalRepo.init(this);
 

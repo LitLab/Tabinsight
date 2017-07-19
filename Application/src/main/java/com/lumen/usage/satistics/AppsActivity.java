@@ -2,26 +2,21 @@ package com.lumen.usage.satistics;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.lumen.adapter.AppsAdapter;
-import com.lumen.model.App;
-import com.lumen.rest.ObservableCron;
-import com.lumen.usage.satistics.databinding.ActivityAppsBinding;
+import com.lumen.sync.SyncService;
+import com.lumen.usage.satistics.databinding.ActivityContainerBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.functions.Action1;
 
 /**
  * Apps screen
@@ -29,78 +24,28 @@ import rx.functions.Action1;
 
 public class AppsActivity extends AppCompatActivity {
 
-    private ActivityAppsBinding mBinding;
+    private ActivityContainerBinding mBinding;
+
+    public static String[] CATEGORIES = {
+            "Literacy",
+            "Math",
+            "Science",
+            "Creativity",
+            "Parents",
+            "Arts"
+    };
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_apps);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_container);
+        setupViewPager(mBinding.viewpager);
 
-        RecyclerView appsList = mBinding.apps;
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
-        appsList.setLayoutManager(layoutManager);
+        mBinding.tabs.setupWithViewPager(mBinding.viewpager);
 
-        String imageUrl = "https://lh3.googleusercontent.com/s08dlQpwZppwLbrf2lA7HRlX780n4FXLoZ2aDbrnWI42adkoaLkJ1hV18U1lITyUl_M=w300-rw";
-        String name = "Animal Sounds";
-        String packageName = "com.premiumsoftware.animalsoundsandphotos";
-
-        App app = new App(name, packageName, imageUrl);
-        List<App> apps = new ArrayList<>();
-//        List<App> apps = Arrays.asList(app, app, app, app);
-
-        renderApps(apps);
-
-        getApps();
-    }
-
-    private void showLoading(boolean show) {
-        int contentVisibiliy = show ? View.GONE : View.VISIBLE;
-        int loadingVisibility = show ? View.VISIBLE : View.GONE;
-
-        mBinding.content.setVisibility(contentVisibiliy);
-        mBinding.loading.setVisibility(loadingVisibility);
-    }
-
-    private void renderApps(List<App> apps) {
-        AppsAdapter adapter = new AppsAdapter(apps, new AppsAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(App app) {
-                onAppClick(app);
-            }
-        });
-
-        mBinding.apps.setAdapter(adapter);
-    }
-
-    private void getApps() {
-        showLoading(true);
-
-        ObservableCron.getApps(this)
-                .subscribe(new Action1<List<App>>() {
-                    @Override
-                    public void call(List<App> apps) {
-                        showLoading(false);
-
-                        renderApps(apps);
-                    }
-
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        showLoading(false);
-
-                        Toast.makeText(AppsActivity.this, "There's been an error", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        showLoading(false);
+        startService(new Intent(this, SyncService.class));
     }
 
     @Override
@@ -123,18 +68,44 @@ public class AppsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void onAppClick(App app) {
-        String packageName = app.packageName;
-        Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
 
-        if (intent == null) {
-            String url = "https://play.google.com/store/apps/details?id=" + packageName;
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-            return;
+        for (String category : CATEGORIES) {
+            adapter.addFragment(AppsFragment.newInstance(category), category);
         }
 
-        startActivity(intent);
+        viewPager.setAdapter(adapter);
+    }
+
+
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }
