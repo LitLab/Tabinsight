@@ -57,6 +57,10 @@
             android:label="Applications"
             android:windowSoftInputMode="stateHidden"/>
 
+        <activity android:name=".LoginActivity"
+            android:label="Login"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
         <activity
             android:name="com.lumen.usage.satistics.DashboardActivity"
             android:label="@string/app_name"
@@ -74,6 +78,7 @@
             android:name="com.lumen.cronjobs.StatsCollectionAlarmReceiver"
             android:enabled="true"
             android:exported="true" />
+
         <receiver
             android:name="com.lumen.cronjobs.ServerUploaderReceiver"
             android:enabled="true"

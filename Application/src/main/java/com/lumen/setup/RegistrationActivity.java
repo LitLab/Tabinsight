@@ -18,8 +18,9 @@ import android.widget.Toast;
 
 import com.lumen.database.LocalRepo;
 import com.lumen.mapper.Mapper;
-import com.lumen.rest.ObservableCron;
+import com.lumen.rest.RemoteRepo;
 import com.lumen.usage.satistics.AppsActivity;
+import com.lumen.usage.satistics.LoginActivity;
 import com.lumen.usage.satistics.R;
 import com.lumen.usage.satistics.databinding.ActivityRegistrationBinding;
 import com.lumen.util.DateUtils;
@@ -55,6 +56,20 @@ public class RegistrationActivity extends AppCompatActivity {
     private DateClickListener mListener = new DateClickListener();
     private Subscription mSubscription;
     private boolean mAgree;
+    private boolean mSchoolName;
+    private boolean mSchoolDistrict;
+    private boolean mTeacherName;
+
+//    private static final String TODDLER = "Toddler";
+//    private static final String PREK = "PreK";
+//    private static final String TK = "TK";
+//    private static final String KINDERGARTEN = "Kindergarten";
+//    private static final String FIRST_GRADE = "First Grade";
+
+
+//    private String[] CHILD_LEVELS = new String[]{TODDLER, PREK, TK, KINDERGARTEN, FIRST_GRADE};
+//    ;
+//    private String mChildLevel;
 
 
     @Override
@@ -88,6 +103,23 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mLastName = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.teacherName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mTeacherName = !TextUtils.isEmpty(s);
                 checkButtonState();
             }
 
@@ -189,6 +221,65 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+        mBinding.school.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mSchoolName = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.schoolDistrict.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mSchoolDistrict = !TextUtils.isEmpty(s);
+                checkButtonState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mBinding.login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+            }
+        });
+
+//        mBinding.childLevel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog dialog = new AlertDialog.Builder(RegistrationActivity.this)
+//                        .setTitle("Select child level")
+//                        .setItems(CHILD_LEVELS, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                mChildLevel = CHILD_LEVELS[which];
+//                                mBinding.childLevel.setText(mChildLevel);
+//                                checkButtonState();
+//                            }
+//                        }).create();
+//
+//                dialog.show();
+//            }
+//        });
+
         mBinding.birthDate.setOnClickListener(mListener);
 
         mBinding.register.setOnClickListener(new View.OnClickListener() {
@@ -204,9 +295,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     String childFirst = TextUtils2.getString(mBinding.childFirstName);
                     String childLast = TextUtils2.getString(mBinding.childLastName);
                     String childBirth = TextUtils2.getString(mBinding.birthDate);
+                    String schoolDistrict = TextUtils2.getString(mBinding.schoolDistrict);
+                    String schoolName = TextUtils2.getString(mBinding.school);
+                    String teacherName = TextUtils2.getString(mBinding.teacherName);
+                    String parentEmail = TextUtils2.getString(mBinding.parentEmail);
 
-                    mSubscription = ObservableCron.register(RegistrationActivity.this,
-                            Mapper.toRegisterParams(firstName, lastName, zip, phone, childFirst, childLast, childBirth))
+                    mSubscription = RemoteRepo.register(RegistrationActivity.this,
+                            Mapper.toRegisterParams(firstName, lastName, zip, phone,
+                                    childFirst, childLast, childBirth, parentEmail, schoolName, schoolDistrict, teacherName))
                             .subscribe(new Action0() {
                                 @Override
                                 public void call() {
@@ -220,6 +316,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                     Intent intent = new Intent(RegistrationActivity.this, AppsActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
+
                                 }
 
                             }, new Action1<Throwable>() {
@@ -269,7 +366,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private boolean formValid() {
 
-        return mFirstName && mLastName && mZip && mPhone & mChildFirst && mChildLast && mChildBirth && mAgree;
+        return mFirstName && mLastName && mZip && mPhone &&
+                mChildFirst && mChildLast && mChildBirth && mAgree &&
+                mSchoolName && mSchoolDistrict && mTeacherName;
     }
 
 

@@ -2,8 +2,6 @@ package com.lumen.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.UUID;
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 

@@ -9,7 +9,7 @@ import com.lumen.constants.LogTags;
 import com.lumen.database.AppUseInfo;
 import com.lumen.database.AppsInfoDatasource;
 import com.lumen.database.DeviceUseInfo;
-import com.lumen.rest.ObservableCron;
+import com.lumen.rest.RemoteRepo;
 import com.lumen.util.NetworkUtils;
 import com.lumen.util.SharedPrefManager;
 
@@ -112,7 +112,7 @@ public class ServerUploader extends Service {
             d.day = calendar.getTime().getTime();
         }
 
-        ObservableCron.getDeviceDataObservable(data, getApplicationContext())
+        RemoteRepo.getDeviceDataObservable(data, getApplicationContext())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -153,7 +153,7 @@ public class ServerUploader extends Service {
             model.is_wifi = isWifiOn;
         }
 
-        ObservableCron.getAppDataObservable(data, getApplicationContext())
+        RemoteRepo.getAppDataObservable(data, getApplicationContext())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())

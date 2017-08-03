@@ -2,7 +2,6 @@ package com.lumen.usage.satistics;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.AppOpsManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
@@ -33,7 +32,7 @@ import com.lumen.cronjobs.StatsCollectionAlarmReceiver;
 import com.lumen.database.AppUseInfo;
 import com.lumen.database.AppsInfoDatasource;
 import com.lumen.database.DeviceUseInfo;
-import com.lumen.rest.ObservableCron;
+import com.lumen.rest.RemoteRepo;
 import com.lumen.util.Permissions;
 import com.lumen.util.SharedPrefManager;
 
@@ -255,7 +254,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         apiAvailableTv.setText("Loading Api status...");
         if (isOnline()) {
 
-            ObservableCron.getService(this).pingServer().enqueue(new Callback<Object>() {
+            RemoteRepo.getService(this).pingServer().enqueue(new Callback<Object>() {
 
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
@@ -288,7 +287,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         permissionGrantedTv = (TextView) findViewById(R.id.permission_granted_tv);
         updatePageButton = (Button) findViewById(R.id.update_page_count);
         pageCountEdit = (EditText) findViewById(R.id.edit_page_count);
-        pageCountEdit.setText(String.valueOf(ObservableCron.PAGE_COUNT));
+        pageCountEdit.setText(String.valueOf(RemoteRepo.PAGE_COUNT));
         wifiSwitch = (Switch) findViewById(R.id.wifiSwitch);
         permissionButton = (Button) findViewById(R.id.get_permission);
         permissionButton.setOnClickListener(this);
@@ -341,7 +340,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
             }
             case R.id.update_page_count: {
-                ObservableCron.PAGE_COUNT = Integer.valueOf(pageCountEdit.getText().toString());
+                RemoteRepo.PAGE_COUNT = Integer.valueOf(pageCountEdit.getText().toString());
                 Toast.makeText(DashboardActivity.this, "Updated page count...", Toast.LENGTH_LONG).show();
             }
         }
@@ -363,7 +362,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         Log.i("sync size ", "data size " + data.size());
 
 //        if (data.size() > 0) {
-            ObservableCron.getDeviceDataObservable(data, this)
+            RemoteRepo.getDeviceDataObservable(data, this)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .unsubscribeOn(Schedulers.io())
@@ -395,7 +394,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     @SuppressWarnings("unchecked")
     private void syncData() {
         List<AppUseInfo> records = appsInfoDatasource.getAppRecords();
-        ObservableCron.getAppDataObservable(records, this)
+        RemoteRepo.getAppDataObservable(records, this)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())

@@ -3,6 +3,7 @@ package com.lumen.rest;
 import com.lumen.database.AppUseInfo;
 import com.lumen.database.DeviceUseInfo;
 import com.lumen.model.App;
+import com.lumen.model.LoginResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,4 +47,9 @@ public interface ApiEndpoints {
     @POST("/publish/user")
     @FormUrlEncoded
     Completable register(@FieldMap Map<String, Object> params);
+
+
+    @POST("/publish/login")
+    @FormUrlEncoded
+    Observable<LoginResponse> login(@FieldMap Map<String, Object> params);
 }

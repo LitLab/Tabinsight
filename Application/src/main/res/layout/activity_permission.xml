@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/permission_text"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_default" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,8 @@
             android:layout_alignParentBottom="true"
             android:background="@android:color/holo_blue_bright"
             android:text="@string/enable_permission"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_default"/>
 
     </RelativeLayout>
 

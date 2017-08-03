@@ -52,7 +52,22 @@
     <string name="agree_to_terms">Agree to terms</string>
     <string name="register">Register</string>
 
-    <string name="permission_text">Lumen ask you to enable permission to collect statistics and provide you better service\n\nplease click on enable permission and in the screen that pops up, click on lumen to enable it </string>
+    <string name="permission_text">Lumen requests that you grant permission to collect usage data
+        on this device in order to provide you with better service and personalized information
+        about your child\'s interaction with our apps.\n\n
+        Lumen only collects data on the specific educational apps that we recommend here.
+        Please click on the Enable Permission button below and then click on "Lumen"
+        in the screen that pops up in order to grant permission.</string>
+
     <string name="enable_permission">enable permission</string>
     <string name="action_settings">Settings</string>
+    <string name="child_level">Child level</string>
+    <string name="already_registered">Already registered ?</string>
+    <string name="click_here">click here</string>
+    <string name="parent_email">Parent email (optional)</string>
+    <string name="teacher_name">Teacher name</string>
+    <string name="school_name">School name</string>
+    <string name="school_district">School district</string>
+    <string name="phone_or_id">Phone or ID</string>
+    <string name="login">Login</string>
 </resources>

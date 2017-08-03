@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.lumen.usage.satistics.R;
 import com.lumen.util.TextUtils2;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 

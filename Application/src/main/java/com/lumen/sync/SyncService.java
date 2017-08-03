@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.lumen.model.App;
-import com.lumen.rest.ObservableCron;
+import com.lumen.rest.RemoteRepo;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class SyncService extends Service {
     @Override
     public int onStartCommand(Intent intent,  int flags, int startId) {
 
-        ObservableCron.getApps(this)
+        RemoteRepo.getApps(this)
                 .subscribe(new Action1<List<App>>() {
                     @Override
                     public void call(final List<App> apps) {
@@ -63,11 +63,18 @@ public class SyncService extends Service {
                     @Override
                     public void call(Throwable throwable) {
 
-                        Toast.makeText(SyncService.this, "There's been an error", Toast.LENGTH_SHORT).show();
+                        if (isAppsEmpty()) {
+                            Toast.makeText(SyncService.this, "There's been an error", Toast.LENGTH_SHORT).show();
+                        }
+
                         stopSelf();
                     }
                 });
 
         return START_NOT_STICKY;
+    }
+
+    private boolean isAppsEmpty() {
+        return Realm.getDefaultInstance().where(App.class).findFirst() == null;
     }
 }

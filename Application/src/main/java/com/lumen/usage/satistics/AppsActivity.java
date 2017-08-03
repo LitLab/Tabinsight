@@ -30,7 +30,6 @@ public class AppsActivity extends AppCompatActivity {
             "Literacy",
             "Math",
             "Science",
-            "Creativity",
             "Parents",
             "Arts"
     };

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.lumen.database.AppUseInfo;
 import com.lumen.database.DeviceUseInfo;
 import com.lumen.model.App;
+import com.lumen.model.LoginResponse;
 import com.lumen.usage.satistics.R;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import rx.schedulers.Schedulers;
 /**
  * Observables factory
  */
-public final class ObservableCron {
+public final class RemoteRepo {
 
     public static int PAGE_COUNT = 20;
     public static int DEVICE_PAGE_COUNT = 24;
@@ -111,6 +112,13 @@ public final class ObservableCron {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public static Observable<LoginResponse> login(Context context, Map<String, Object> params) {
+        return getService(context).login(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
     public static ApiEndpoints getService(Context context) {
         httpClient = new OkHttpClient.Builder();
