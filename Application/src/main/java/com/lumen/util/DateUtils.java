@@ -4,10 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
- * Created by elirang on 7/4/17.
+ * Date utility methods
  */
 
 public class DateUtils {
 
-    public static final SimpleDateFormat DATE_ONLY = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    public static final SimpleDateFormat DATE_ONLY = new SimpleDateFormat("MM/dd/yy", Locale.getDefault());
 }

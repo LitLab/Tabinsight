@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.lumen.database.LocalRepo;
 import com.lumen.mapper.Mapper;
 import com.lumen.rest.RemoteRepo;
@@ -53,23 +54,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private Date mDate = new Date();
     private DateListener mDateListener = new DateListener();
+    private long mTime;
     private DateClickListener mListener = new DateClickListener();
     private Subscription mSubscription;
     private boolean mAgree;
     private boolean mSchoolName;
     private boolean mSchoolDistrict;
     private boolean mTeacherName;
-
-//    private static final String TODDLER = "Toddler";
-//    private static final String PREK = "PreK";
-//    private static final String TK = "TK";
-//    private static final String KINDERGARTEN = "Kindergarten";
-//    private static final String FIRST_GRADE = "First Grade";
-
-
-//    private String[] CHILD_LEVELS = new String[]{TODDLER, PREK, TK, KINDERGARTEN, FIRST_GRADE};
-//    ;
-//    private String mChildLevel;
+    private String mTimeString;
 
 
     @Override
@@ -262,24 +254,6 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-//        mBinding.childLevel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialog dialog = new AlertDialog.Builder(RegistrationActivity.this)
-//                        .setTitle("Select child level")
-//                        .setItems(CHILD_LEVELS, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                mChildLevel = CHILD_LEVELS[which];
-//                                mBinding.childLevel.setText(mChildLevel);
-//                                checkButtonState();
-//                            }
-//                        }).create();
-//
-//                dialog.show();
-//            }
-//        });
-
         mBinding.birthDate.setOnClickListener(mListener);
 
         mBinding.register.setOnClickListener(new View.OnClickListener() {
@@ -299,10 +273,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     String schoolName = TextUtils2.getString(mBinding.school);
                     String teacherName = TextUtils2.getString(mBinding.teacherName);
                     String parentEmail = TextUtils2.getString(mBinding.parentEmail);
+                    long registerTime =  new Date().getTime() / 1000;
+
 
                     mSubscription = RemoteRepo.register(RegistrationActivity.this,
                             Mapper.toRegisterParams(firstName, lastName, zip, phone,
-                                    childFirst, childLast, childBirth, parentEmail, schoolName, schoolDistrict, teacherName))
+                                    childFirst, childLast, childBirth, parentEmail,
+                                    schoolName, schoolDistrict, teacherName, mTimeString, registerTime))
                             .subscribe(new Action0() {
                                 @Override
                                 public void call() {
@@ -324,8 +301,10 @@ public class RegistrationActivity extends AppCompatActivity {
                                 public void call(Throwable throwable) {
                                     showLoading(false);
 
+                                    Crashlytics.logException(throwable);
+
                                     Log.i(TAG, "registering... ERROR: " + throwable.getMessage());
-                                    Toast.makeText(RegistrationActivity.this, "there's been an error", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistrationActivity.this, "error " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
@@ -404,6 +383,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
             // swaps the modified date as the current one.
             mDate = newDate.getTime();
+            mTime = mDate.getTime();
+            mTimeString = String.valueOf(mTime);
             mBinding.birthDate.setText(DateUtils.DATE_ONLY.format(mDate));
         }
     }

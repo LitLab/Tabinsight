@@ -44,12 +44,12 @@ public interface ApiEndpoints {
      * @param params user information
      * @return {@link Completable} of the response status
      */
-    @POST("/publish/user")
+    @POST("/users")
     @FormUrlEncoded
     Completable register(@FieldMap Map<String, Object> params);
 
 
-    @POST("/publish/login")
+    @POST("/users/login")
     @FormUrlEncoded
     Observable<LoginResponse> login(@FieldMap Map<String, Object> params);
 }

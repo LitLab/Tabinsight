@@ -3,8 +3,10 @@ package com.lumen.usage.satistics;
 import android.app.Application;
 
 import com.bugfender.sdk.Bugfender;
+import com.crashlytics.android.Crashlytics;
 import com.lumen.database.LocalRepo;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -14,6 +16,7 @@ public class LumenApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         Realm.init(this);
 

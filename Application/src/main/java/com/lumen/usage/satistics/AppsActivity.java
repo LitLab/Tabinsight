@@ -27,6 +27,7 @@ public class AppsActivity extends AppCompatActivity {
     private ActivityContainerBinding mBinding;
 
     public static String[] CATEGORIES = {
+            "Featured",
             "Literacy",
             "Math",
             "Science",
