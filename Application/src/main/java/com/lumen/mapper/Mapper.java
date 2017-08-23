@@ -15,7 +15,7 @@ public class Mapper {
                                                        String zip, String phone, String childFirstName,
                                                        String childLastName, String childBirthDate, String parentEmail,
                                                        String schoolName, String schoolDistrict, String teacherName, String childBirthTime,
-                                                       long registerTime) {
+                                                       long registerTime, String gender) {
         Map<String, Object> params = new HashMap<>();
 
         params.put("firstName", firstName);
@@ -30,6 +30,7 @@ public class Mapper {
         params.put("schoolDistrict", schoolDistrict);
         params.put("teacherName", teacherName);
         params.put("registerTime", registerTime);
+        params.put("gender", gender);
 
         if (TextUtils2.isNotEmpty(parentEmail)) {
             params.put("parentEmail", parentEmail);

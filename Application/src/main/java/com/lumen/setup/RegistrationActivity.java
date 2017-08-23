@@ -273,13 +273,14 @@ public class RegistrationActivity extends AppCompatActivity {
                     String schoolName = TextUtils2.getString(mBinding.school);
                     String teacherName = TextUtils2.getString(mBinding.teacherName);
                     String parentEmail = TextUtils2.getString(mBinding.parentEmail);
+                    String gender = (String)mBinding.gender.getSelectedItem();
                     long registerTime =  new Date().getTime() / 1000;
 
 
                     mSubscription = RemoteRepo.register(RegistrationActivity.this,
                             Mapper.toRegisterParams(firstName, lastName, zip, phone,
                                     childFirst, childLast, childBirth, parentEmail,
-                                    schoolName, schoolDistrict, teacherName, mTimeString, registerTime))
+                                    schoolName, schoolDistrict, teacherName, mTimeString, registerTime, gender))
                             .subscribe(new Action0() {
                                 @Override
                                 public void call() {

@@ -32,6 +32,7 @@ import com.lumen.cronjobs.StatsCollectionAlarmReceiver;
 import com.lumen.database.AppUseInfo;
 import com.lumen.database.AppsInfoDatasource;
 import com.lumen.database.DeviceUseInfo;
+import com.lumen.database.LocalRepo;
 import com.lumen.rest.RemoteRepo;
 import com.lumen.util.Permissions;
 import com.lumen.util.SharedPrefManager;
@@ -50,7 +51,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
+public class SettingsActivity extends BackArrowActivity implements View.OnClickListener {
 
     private TextView lastSyncTv;
     private TextView remainingRecordsTv;
@@ -69,6 +70,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private ServerUploaderReceiver serverUploaderReceiver;
     private boolean mIsGranted;
     private boolean mIsError;
+    private TextView phone;
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -98,7 +100,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         wifiPresentAlarm();
 
         sharedManager = SharedPrefManager.getInstance(this);
-        loadingDialog = new AlertDialog.Builder(DashboardActivity.this)
+        loadingDialog = new AlertDialog.Builder(SettingsActivity.this)
                 .setMessage(R.string.loading_data_message)
                 .show();
         appsInfoDatasource = new AppsInfoDatasource(this);
@@ -126,7 +128,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         try {
             appsInfoDatasource.open();
             int unsynced = appsInfoDatasource.getAppRecords().size();
-            remainingRecordsTv.setText("Un-synced records remaining: " + String.valueOf(unsynced));
+            remainingRecordsTv.setText(getString(R.string.settings_unsynced_title) + String.valueOf(unsynced));
         } catch (SQLException e) {
             remainingRecordsTv.setText(R.string.unsynced_message);
         }
@@ -135,7 +137,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         checkApi();
 
-        permissionGrantedTv.setText("Usage statistics permission: ");
+        permissionGrantedTv.setText(R.string.settings_permission_title);
 
         if (Permissions.isPermissionGranted(this)) {
             mIsGranted = true;
@@ -145,7 +147,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         } else {
             mIsGranted = false;
             permissionButton.setVisibility(View.VISIBLE);
-            Toast.makeText(DashboardActivity.this, "Permission missing", Toast.LENGTH_LONG).show();
+            Toast.makeText(SettingsActivity.this, "Permission missing", Toast.LENGTH_LONG).show();
             permissionGrantedTv.append("not granted");
         }
 
@@ -259,18 +261,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
                     if (response.isSuccessful())
-                        apiAvailableTv.setText("Api status: available");
+                        apiAvailableTv.setText(R.string.settings_api_available);
                     else
-                        apiAvailableTv.setText("Api status: not available");
+                        apiAvailableTv.setText(R.string.ssettings_api_not_available);
                 }
 
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
-                    apiAvailableTv.setText("Api status: not available");
+                    apiAvailableTv.setText(R.string.ssettings_api_not_available);
                 }
             });
         } else {
-            apiAvailableTv.setText("Api status: not available or offline");
+            apiAvailableTv.setText(R.string.settings_api_not_available_offline);
         }
     }
 
@@ -280,29 +282,35 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void findViews() {
-        versionTv = (TextView) findViewById(R.id.version_tv);
-        lastSyncTv = (TextView) findViewById(R.id.last_sync_tv);
-        remainingRecordsTv = (TextView) findViewById(R.id.remaining_records_tv);
-        apiAvailableTv = (TextView) findViewById(R.id.api_available_tv);
-        permissionGrantedTv = (TextView) findViewById(R.id.permission_granted_tv);
-        updatePageButton = (Button) findViewById(R.id.update_page_count);
-        pageCountEdit = (EditText) findViewById(R.id.edit_page_count);
+        versionTv = findViewById(R.id.version_tv);
+        lastSyncTv = findViewById(R.id.last_sync_tv);
+        remainingRecordsTv = findViewById(R.id.remaining_records_tv);
+        apiAvailableTv = findViewById(R.id.api_available_tv);
+        permissionGrantedTv = findViewById(R.id.permission_granted_tv);
+        updatePageButton = findViewById(R.id.update_page_count);
+        pageCountEdit = findViewById(R.id.edit_page_count);
         pageCountEdit.setText(String.valueOf(RemoteRepo.PAGE_COUNT));
-        wifiSwitch = (Switch) findViewById(R.id.wifiSwitch);
-        permissionButton = (Button) findViewById(R.id.get_permission);
+        wifiSwitch = findViewById(R.id.wifiSwitch);
+        permissionButton = findViewById(R.id.get_permission);
         permissionButton.setOnClickListener(this);
+        phone = findViewById(R.id.phone);
 
-        FloatingActionButton infoButton = (FloatingActionButton) findViewById(R.id.info);
+        String deviceId = "Device id: " + LocalRepo.getId();
+        phone.setText(deviceId);
+
+        FloatingActionButton infoButton = findViewById(R.id.info);
         infoButton.setOnClickListener(this);
 
-        Button checkApiButton = (Button) findViewById(R.id.check_api);
+        Button checkApiButton = findViewById(R.id.check_api);
         checkApiButton.setOnClickListener(this);
 
-        Button syncDataButton = (Button) findViewById(R.id.sync_data);
+        Button syncDataButton = findViewById(R.id.sync_data);
         syncDataButton.setOnClickListener(this);
 
         updatePageButton.setOnClickListener(this);
-        versionTv.setText("Version " + BuildConfig.VERSION_NAME);
+
+        String version = "Version " + BuildConfig.VERSION_NAME;
+        versionTv.setText(version);
     }
 
     @Override
@@ -314,13 +322,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
             }
             case R.id.check_api: {
-                Toast.makeText(DashboardActivity.this, "Api check started...", Toast.LENGTH_LONG).show();
+                Toast.makeText(SettingsActivity.this, "Api check started...", Toast.LENGTH_LONG).show();
                 checkApi();
                 break;
             }
             case R.id.sync_data: {
                 if (mIsGranted) {
-                    Toast.makeText(DashboardActivity.this, "Syncing started...", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SettingsActivity.this, "Syncing started...", Toast.LENGTH_LONG).show();
                     uploadDeviceInfos(appsInfoDatasource.getDeviceRecords());
 
                 } else {
@@ -341,7 +349,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
             case R.id.update_page_count: {
                 RemoteRepo.PAGE_COUNT = Integer.valueOf(pageCountEdit.getText().toString());
-                Toast.makeText(DashboardActivity.this, "Updated page count...", Toast.LENGTH_LONG).show();
+                Toast.makeText(SettingsActivity.this, "Updated page count...", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -402,14 +410,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onCompleted() {
                         if (!mIsError) {
-                            Toast.makeText(DashboardActivity.this, "Sync success", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SettingsActivity.this, "Sync success", Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mIsError = true;
-                        Toast.makeText(DashboardActivity.this, "Error syncing", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SettingsActivity.this, "Error syncing", Toast.LENGTH_LONG).show();
                         updateSyncStatus();
                     }
 
@@ -417,7 +425,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     public void onNext(Object o) {
                         Log.d(LogTags.APP_INFO.name(), "Syncing next batch");
                         Log.d(LogTags.APP_INFO.name(), "Syncing apps completed successfully");
-                        Toast.makeText(DashboardActivity.this, "Sync success", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SettingsActivity.this, "Sync success", Toast.LENGTH_LONG).show();
                         appsInfoDatasource.truncateTable();
                         SharedPrefManager.getInstance(getBaseContext())
                                 .saveSyncProgress(new Date());

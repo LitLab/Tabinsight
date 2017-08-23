@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.lumen.database.LocalRepo;
-import com.lumen.usage.satistics.DashboardActivity;
+import com.lumen.usage.satistics.SettingsActivity;
 import com.lumen.usage.satistics.R;
 import com.lumen.util.Permissions;
 
@@ -29,7 +29,7 @@ public class PermissionsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_permission);
 
-        Button permission = (Button) findViewById(R.id.enable_permission);
+        Button permission = findViewById(R.id.enable_permission);
         permission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +58,7 @@ public class PermissionsActivity extends AppCompatActivity {
                         appOpsManager.stopWatchingMode(this);
 
                         if (LocalRepo.isIdExist()) {
-                            Intent intent = new Intent(PermissionsActivity.this, DashboardActivity.class);
+                            Intent intent = new Intent(PermissionsActivity.this, SettingsActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
 

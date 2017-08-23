@@ -59,7 +59,7 @@ public class AppsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(this, DashboardActivity.class);
+                Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
 
                 break;

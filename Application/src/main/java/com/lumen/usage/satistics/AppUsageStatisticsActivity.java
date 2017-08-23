@@ -69,7 +69,7 @@ public class AppUsageStatisticsActivity extends AppCompatActivity implements Dia
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, DashboardActivity.class));
+        startActivity(new Intent(this, SettingsActivity.class));
         finish();
     }
 }
