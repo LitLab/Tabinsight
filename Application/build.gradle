@@ -71,7 +71,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 26
-        applicationId "com.lumen.usage.satistics"
+        applicationId "com.kidappolis.usage.satistics"
         versionCode 11
         versionName "1.2"
     }

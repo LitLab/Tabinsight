@@ -26,7 +26,7 @@
 
     <string name="package_name_placeholder">Package Name</string>
     <string name="last_time_used_placeholder">12/31/1970 23:59:59 123456</string>
-    <string name="app_name">Lumen</string>
+    <string name="app_name">Kidappolis</string>
     <string name="loading_placeholder">Loading…</string>
     <string name="never_synced_message">Did not sync yet.</string>
     <string name="loading_data_message">Loading data…</string>
@@ -54,11 +54,11 @@
 
     <string name="label_settings">Settings</string>
 
-    <string name="permission_text">Lumen requests that you grant permission to collect usage data
+    <string name="permission_text">Kidappolis requests that you grant permission to collect usage data
         on this device in order to provide you with better service and personalized information
         about your child\'s interaction with our apps.\n\n
-        Lumen only collects data on the specific educational apps that we recommend here.
-        Please click on the Enable Permission button below and then click on "Lumen"
+        Kidappolis only collects data on the specific educational apps that we recommend here.
+        Please click on the Enable Permission button below and then click on "Kidappolis"
         in the screen that pops up in order to grant permission.</string>
 
     <string name="enable_permission">enable permission</string>

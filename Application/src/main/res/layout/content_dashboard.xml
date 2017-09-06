@@ -7,7 +7,7 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.lumen.usage.satistics.SettingsActivity"
+    tools:context="com.kidappolis.usage.satistics.SettingsActivity"
     tools:showIn="@layout/activity_dashboard">
 
     <LinearLayout

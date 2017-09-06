@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lumen.usage.satistics">
+    package="com.kidappolis.usage.satistics">
 
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,17 +24,17 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".LumenApp"
+        android:name="com.kidappolis.usage.satistics.LumenApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.lumen.usage.satistics.AppUsageStatisticsActivity"
+            android:name="com.kidappolis.usage.satistics.AppUsageStatisticsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
 
-        <activity android:name="com.lumen.setup.SplashScreen"
+        <activity android:name="com.kidappolis.setup.SplashScreen"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,42 +45,42 @@
 
         <!--SETUP-->
 
-        <activity android:name="com.lumen.setup.PermissionsActivity"
+        <activity android:name="com.kidappolis.setup.PermissionsActivity"
             android:label="Permissions"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
-        <activity android:name="com.lumen.setup.RegistrationActivity"
+        <activity android:name="com.kidappolis.setup.RegistrationActivity"
             android:label="Register"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
-        <activity android:name=".AppsActivity"
+        <activity android:name="com.kidappolis.usage.satistics.AppsActivity"
             android:label="Applications"
             android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.kidappolis.usage.satistics.LoginActivity"
             android:label="Login"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="com.lumen.usage.satistics.SettingsActivity"
+            android:name="com.kidappolis.usage.satistics.SettingsActivity"
             android:label="@string/label_settings"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden" />
 
 
         <service
-            android:name="com.lumen.cronjobs.StatsCollector"
+            android:name="com.kidappolis.cronjobs.StatsCollector"
             android:enabled="true"
             android:exported="true"
             android:process=":remote" />
 
         <receiver
-            android:name="com.lumen.cronjobs.StatsCollectionAlarmReceiver"
+            android:name="com.kidappolis.cronjobs.StatsCollectionAlarmReceiver"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name="com.lumen.cronjobs.ServerUploaderReceiver"
+            android:name="com.kidappolis.cronjobs.ServerUploaderReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -90,7 +90,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.lumen.cronjobs.BootReceiver">
+        <receiver android:name="com.kidappolis.cronjobs.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -98,12 +98,12 @@
 
 
         <service
-            android:name="com.lumen.cronjobs.ServerUploader"
+            android:name="com.kidappolis.cronjobs.ServerUploader"
             android:enabled="true"
             android:exported="true" />
 
         <service
-            android:name="com.lumen.sync.SyncService"
+            android:name="com.kidappolis.sync.SyncService"
             android:exported="false" />
 
 
