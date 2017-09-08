@@ -26,7 +26,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Observables factory
+ * Main repository - the place which wraps the network calls
  */
 public final class RemoteRepo {
 

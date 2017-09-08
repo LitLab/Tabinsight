@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Provide views to RecyclerView with the directory entries.
+ * List that used to show device usage fo teh device
  */
 public class UsageListAdapter extends RecyclerView.Adapter<UsageListAdapter.ViewHolder> {
 

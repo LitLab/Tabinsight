@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Class that collects device usage statistics (a.k.a usage time, how much time device has been up or not...)
+ * and save it in the device cache
  */
 public class StatsCollector extends Service {
 

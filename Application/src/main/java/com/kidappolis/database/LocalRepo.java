@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import com.kidappolis.constants.Keys;
 
 /**
- * Local repository
+ * Local repository - used as a class that handles device cache
  */
 
 public class LocalRepo {

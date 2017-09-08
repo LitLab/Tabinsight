@@ -18,7 +18,7 @@ import com.kidappolis.usage.satistics.R;
 import com.kidappolis.util.Permissions;
 
 /**
- * First screen to give permission to lumen
+ * First screen that asks the user to give usage access permission
  */
 
 public class PermissionsActivity extends AppCompatActivity {

@@ -19,7 +19,7 @@ import rx.Completable;
 import rx.Observable;
 
 /**
- * Api service
+ * Api calls
  */
 public interface ApiEndpoints {
 

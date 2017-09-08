@@ -8,6 +8,9 @@ import com.kidappolis.util.TextUtils2;
 import com.squareup.picasso.Picasso;
 
 
+/**
+ * Used to show images as attributes
+ */
 public class ImageViewAdapter {
 
     @BindingAdapter({"bind:imageUrl"})

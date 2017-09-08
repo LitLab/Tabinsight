@@ -26,7 +26,7 @@ import com.kidappolis.util.DialogCallback;
 import com.kidappolis.util.LumenApplicationContext;
 
 /**
- * Launcher Activity to show all the device app usage statistics
+ * Activity that shows all the device app usage statistics
  */
 public class AppUsageStatisticsActivity extends AppCompatActivity implements DialogCallback {
 

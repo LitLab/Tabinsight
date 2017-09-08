@@ -24,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * uploads to the server all the relevant data : device and app/package usage time
+ * uploads to the server all the relevant data : device and app/package usage times
  */
 public class ServerUploader extends Service {
 

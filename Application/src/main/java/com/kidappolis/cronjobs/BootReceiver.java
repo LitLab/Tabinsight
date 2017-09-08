@@ -10,6 +10,7 @@ import java.util.Calendar;
 
 /**
  * {@link BroadcastReceiver} that triggered every time after boot
+ * it triggers the service that that uploads data to the server
  */
 
 public class BootReceiver extends BroadcastReceiver {

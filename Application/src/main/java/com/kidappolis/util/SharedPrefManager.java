@@ -8,6 +8,9 @@ import android.util.Log;
 import java.util.Date;
 
 
+/**
+ * helper class that wraps {@link SharedPreferences}
+ */
 public class SharedPrefManager {
 
     private static final String KEY_SYNC_IN_PROGRESS = "lastSynced";

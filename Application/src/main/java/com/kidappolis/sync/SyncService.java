@@ -17,6 +17,7 @@ import rx.functions.Action1;
 
 /**
  * Sync apps service
+ * Syncing apps data form server to device cache
  */
 
 public class SyncService extends Service {

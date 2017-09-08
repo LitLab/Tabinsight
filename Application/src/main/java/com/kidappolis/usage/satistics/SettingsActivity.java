@@ -50,6 +50,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+/**
+ * Settings screen - here its possible to force sync data, see usage permissions and more...
+ */
 public class SettingsActivity extends BackArrowActivity implements View.OnClickListener {
 
     private TextView lastSyncTv;
