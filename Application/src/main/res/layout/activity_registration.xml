@@ -308,15 +308,34 @@
 
                 </LinearLayout>
 
-
-                <CheckBox
-                    android:id="@+id/agree"
+                <LinearLayout
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/agree_to_terms"
-                    android:textSize="@dimen/text_large" />
+                    android:orientation="horizontal">
+
+
+                    <CheckBox
+                        android:id="@+id/agree"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/agree_to_terms"
+                        android:textSize="@dimen/text_large" />
+
+                    <TextView
+                        android:id="@+id/terms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_large"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/terms"/>
+
+                </LinearLayout>
+
+
+
 
 
                 <RelativeLayout

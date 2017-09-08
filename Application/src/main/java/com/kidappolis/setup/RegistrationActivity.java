@@ -23,6 +23,7 @@ import com.kidappolis.rest.RemoteRepo;
 import com.kidappolis.usage.satistics.AppsActivity;
 import com.kidappolis.usage.satistics.LoginActivity;
 import com.kidappolis.usage.satistics.R;
+import com.kidappolis.usage.satistics.TermsActivity;
 import com.kidappolis.usage.satistics.databinding.ActivityRegistrationBinding;
 import com.kidappolis.util.DateUtils;
 import com.kidappolis.util.TextUtils2;
@@ -251,6 +252,13 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+            }
+        });
+
+        mBinding.terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegistrationActivity.this, TermsActivity.class));
             }
         });
 
