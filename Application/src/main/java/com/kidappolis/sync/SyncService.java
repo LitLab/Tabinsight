@@ -41,6 +41,7 @@ public class SyncService extends Service {
                         realm.executeTransactionAsync(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
+                                realm.delete(App.class);
                                 realm.copyToRealmOrUpdate(apps);
                             }
 

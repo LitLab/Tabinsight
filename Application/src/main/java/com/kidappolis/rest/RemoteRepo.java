@@ -129,7 +129,7 @@ public final class RemoteRepo {
         httpClient.addInterceptor(logging);
 
         Retrofit retrofit = builder
-                .baseUrl("http://" + "services.lumen.com:3000/")
+                .baseUrl("http://" + "services.tablumen.com:3000/")
                 .client(httpClient.build())
                 .build();
         return retrofit.create(ApiEndpoints.class);
